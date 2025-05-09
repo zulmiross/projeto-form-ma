@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; img-src 'self' data:;">
+
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" href="css/index.css">
+    <!-- <script src="https://cdn.jsdelivr.net/npm/html-to-pdfmake/browser.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/vfs_fonts.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+
+
+    <title>Teste</title>
+</head>
+
+<body>
+    <div class="app">
+        <h1>Teste</h1>
+        <div id="deviceready" class="blink">
+            <h1>Gerar PDF</h1>
+            <button id="gerar-pdf">Gerar PDF</button>
+
+        </div>
+    </div>
+    <script src="cordova.js"></script>
+    <script src="js/index.js"></script>
+    <script>
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get the file input element
+            const gerarPDF = document.getElementById('gerar-pdf');
+
+            gerarPDF.addEventListener('click', function (e) {
+                gerarPdf();
+            })
+
+        })
+
+
+
+
+        async function gerarPdf() {
+            const response = await fetch('./template/index64.html');
+            const html = await response.text();
+
+            var opt = {
+                margin: 10,
+                filename: 'documento.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'A4', orientation: 'portrait' }
+            }; 
+            html2pdf().set(opt).from(html).save();
+        }
+
+    </script>
+</body>
+
+</html>
