@@ -2,68 +2,452 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="./css/bootstrap.min.css" rel="stylesheet">
 
-    <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; img-src 'self' data:;">
-
-    <meta name="format-detection" content="telephone=no">
-    <meta name="msapplication-tap-highlight" content="no">
-    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
-    <meta name="color-scheme" content="light dark">
-    <link rel="stylesheet" href="css/index.css">
-    <!-- <script src="https://cdn.jsdelivr.net/npm/html-to-pdfmake/browser.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/vfs_fonts.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <title>FRM Meio Ambiente</title>
 
 
 
-    <title>Teste</title>
+
+  <!-- Estilos -->
+  <style>
+    body {
+      background-color: #28a745;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 90vh;
+    }
+
+    .form-card {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      padding: 30px;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .form-card h5 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .form-label {
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .form-control {
+      border: none;
+      border-bottom: 1px solid #000;
+      border-radius: 0;
+    }
+
+    .form-control:focus {
+      box-shadow: none;
+      border-color: #28a745;
+    }
+
+    .step-section {
+      display: none;
+    }
+
+    .step-section.active {
+      display: block;
+    }
+
+    .next-btn,
+    .back-btn,
+    .btn-success {
+      border-radius: 25px;
+      padding: 10px 30px;
+    }
+
+    #spinner {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+
+
+    .loader {
+      border: 10px solid #f3f3f3;
+      border-top: 10px solid #3498db;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+
 </head>
 
 <body>
-    <div class="app">
-        <h1>Teste</h1>
-        <div id="deviceready" class="blink">
-            <h1>Gerar PDF</h1>
-            <button id="gerar-pdf">Gerar PDF</button>
 
+  <!-- index.html -->
+  <div id="spinner">
+    <div class="loader"></div>
+  </div>
+
+  <div class="container">
+    <div class="form-card">
+      <h3 class="mb-4">Auto de Infração Ambiental</h3>
+      <form id="formulario" novalidate>
+        <!-- Seção 1: Identificação do Autuado -->
+        <div class="step-section active">
+          <h5>1. Identificação do Autuado</h5>
+          <div class="row mb-3">
+            <div class="col-md-6"><label class="form-label">Nome/Razão Social</label><input required
+                name="autuado_razaosocial" type="text" class="form-control"></div>
+            <div class="col-md-3"><label class="form-label">CPF/CNPJ</label><input required name="autuado_cpfcnpj"
+                type="text" class="form-control">
+            </div>
+            <div class="col-md-3"><label class="form-label">Telefone</label><input required name="autuado_telefone"
+                type="text" class="form-control">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6"><label class="form-label">Endereço</label><input required name="autuado_endereco"
+                type="text" class="form-control">
+            </div>
+            <div class="col-md-3"><label class="form-label">Bairro</label><input required name="autuado_bairro"
+                type="text" class="form-control"></div>
+            <div class="col-md-3"><label class="form-label">Município/UF</label><input required name="autuado_municipio"
+                type="text" class="form-control">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-3"><label class="form-label">CEP</label><input required name="autuado_cep" type="text"
+                class="form-control">
+            </div>
+            <div class="col-md-9"><label class="form-label">E-mail</label><input required name="autuado_email"
+                type="email" class="form-control">
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary next-btn">Próximo</button>
         </div>
+
+        <!-- Seção 2: Descrição da Infração -->
+        <div class="step-section">
+          <h5>2. Descrição da Infração</h5>
+          <div class="row mb-3">
+            <div class="col-md-4"><label class="form-label">Data</label><input name="infracao_data" type="date"
+                class="form-control">
+            </div>
+            <div class="col-md-4"><label class="form-label">Hora</label><input name="infracao_hora" type="time"
+                class="form-control">
+            </div>
+            <div class="col-md-4"><label class="form-label">Local</label><input name="infracao_local" type="text"
+                class="form-control">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6"><label class="form-label">Coordenadas (LONG)</label><input name="infracao_longitude"
+                type="text" class="form-control"></div>
+            <div class="col-md-6"><label class="form-label">Coordenadas (LAT)</label><input name="infracao_latitude"
+                type="text" class="form-control"></div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Descrição da Infração</label>
+            <textarea name="infracao_descricao" class="form-control" rows="4"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Evidências</label><br>
+            <div class="form-check form-check-inline"><input name="infracao_fotos" class="form-check-input"
+                type="checkbox"> <label class="form-check-label">Fotos</label></div>
+            <div class="form-check form-check-inline"><input name="infracao_amostras" class="form-check-input"
+                type="checkbox"> <label class="form-check-label">Amostras</label></div>
+            <div class="form-check form-check-inline"><input name="infracao_videos" class="form-check-input"
+                type="checkbox"> <label class="form-check-label">Vídeos</label></div>
+            <div class="form-check form-check-inline"><input name="infracao_testemunhas" class="form-check-input"
+                type="checkbox"> <label class="form-check-label">Testemunhas</label></div>
+            <div class="form-check form-check-inline"><input name="infracao_outros" class="form-check-input"
+                type="checkbox"> <label class="form-check-label">Outros</label></div>
+          </div>
+          <button type="button" class="btn btn-secondary back-btn">Voltar</button>
+          <button type="button" class="btn btn-primary next-btn">Próximo</button>
+        </div>
+
+        <!-- Seção 3: Fundamentação Legal -->
+        <div class="step-section">
+          <h5>3. Fundamentação Legal</h5>
+          <div class="mb-3">
+            <label class="form-label">Lei nº 9.605/98</label>
+            <input name="funcamentacao_lei" class="form-control" type="text">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Decreto nº 6.514/08</label>
+            <input name="fundamentacao_decreto" class="form-control" type="text">
+          </div>
+          <button type="button" class="btn btn-secondary back-btn">Voltar</button>
+          <button type="button" class="btn btn-primary next-btn">Próximo</button>
+        </div>
+
+        <!-- Seção 4: Penalidades -->
+        <div class="step-section">
+          <h5>4. Penalidades</h5>
+
+          <fieldset class="border rounded-3 p-4 mb-3 row">
+            <legend class="float-none w-auto px-1 fw-bold text-success fs-5">Advertência</legend>
+            <div class="col"><label class="form-label">Prazo</label>
+              <input name="penalidade_advertencia_prazo" class="form-control" type="text">
+            </div>
+            <div class="col">
+              <label class="form-label">Medidas</label>
+              <input name="penalidade_advertencia_medidas" class="form-control" type="text">
+            </div>
+          </fieldset>
+
+         <fieldset class="border rounded-3 p-4 mb-3 row">
+            <legend class="float-none w-auto px-1 fw-bold text-success fs-5">Multa</legend>
+            <div class="col"><label class="form-label">Valor</label>
+              <input name="penalidade_multa_valor" class="form-control" type="text">
+            </div>
+            <div class="col">
+              <label class="form-label">Base</label>
+              <input name="penalidade_multa_base" class="form-control" type="text">
+            </div>
+          </fieldset>
+
+          <div class="form-check"><input class="form-check-input" type="checkbox"> <label
+              class="form-check-label">Interdição</label></div>
+          <div class="mb-3"><label class="form-label">Base</label><input class="form-control" type="text"></div>
+
+          <div class="form-check"><input class="form-check-input" type="checkbox"> <label
+              class="form-check-label">Embargo/Demolição</label></div>
+          <div class="mb-3"><label class="form-label">Base</label><input class="form-control" type="text"></div>
+
+          <div class="form-check"><input class="form-check-input" type="checkbox"> <label
+              class="form-check-label">Apreensão</label></div>
+          <div class="mb-3"><label class="form-label">Itens</label><input class="form-control" type="text"></div>
+
+          <div class="form-check"><input class="form-check-input" type="checkbox"> <label
+              class="form-check-label">Recuperação</label></div>
+          <div class="mb-3"><label class="form-label">Medidas</label><input class="form-control" type="text"></div>
+
+          <button type="button" class="btn btn-secondary back-btn">Voltar</button>
+          <button type="button" class="btn btn-primary next-btn">Próximo</button>
+        </div>
+
+        <!-- Seção 5: Notificação e Defesa -->
+        <div class="step-section">
+          <h5>5. Notificação e Defesa</h5>
+          <div class="mb-3"><label class="form-label">Forma de Notificação</label>
+            <div class="form-check"><input class="form-check-input" type="checkbox"> <label
+                class="form-check-label">Pessoal</label></div>
+            <div class="form-check"><input class="form-check-input" type="checkbox"> <label
+                class="form-check-label">Postal</label></div>
+            <div class="form-check"><input class="form-check-input" type="checkbox"> <label
+                class="form-check-label">Edital</label></div>
+          </div>
+          <div class="mb-3"><label class="form-label">Data da Notificação</label><input type="date"
+              class="form-control">
+          </div>
+          <div class="mb-3"><label class="form-label">Base Legal</label><textarea class="form-control"
+              rows="3">Defesa 20 dias (Art. 70, §3º - Lei nº 9.605/98) e Art. 113, §1º - Decreto nº 6.514/08. Apresentar à SAMA.</textarea>
+          </div>
+
+          <button type="button" class="btn btn-secondary back-btn">Voltar</button>
+          <button type="button" class="btn btn-primary next-btn">Próximo</button>
+        </div>
+
+        <!-- Seção 6: Equipe e Testemunhas -->
+        <div class="step-section">
+          <h5>6. Equipe de Fiscalização e Testemunhas</h5>
+          <div class="mb-3"><label class="form-label">Agente SAMA</label><input class="form-control"
+              placeholder="Nome e Matrícula"></div>
+          <div class="mb-3"><label class="form-label">Fiscal</label><input class="form-control"
+              placeholder="Nome e Matrícula"></div>
+          <div class="mb-3"><label class="form-label">Testemunha 1</label><input class="form-control"></div>
+          <div class="mb-3"><label class="form-label">Testemunha 2</label><input class="form-control"></div>
+          <div class="mb-3"><label class="form-label">Observações</label><textarea class="form-control"
+              rows="3"></textarea></div>
+
+          <button type="button" class="btn btn-secondary back-btn">Voltar</button>
+          <button type="submit" class="btn btn-success">Finalizar</button>
+        </div>
+      </form>
     </div>
-    <script src="cordova.js"></script>
-    <script src="js/index.js"></script>
-    <script>
+
+  </div>
+
+  <!-- Cordova deve ser carregado antes de qualquer JS que use plugins -->
+  <script src="cordova.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.2.0/mustache.min.js"></script> -->
+  <script src="./js/mustache.js"></script>
+  <!-- Seu código JS principal -->
 
 
-        document.addEventListener('DOMContentLoaded', function () {
-            // Get the file input element
-            const gerarPDF = document.getElementById('gerar-pdf');
+  <script>
 
-            gerarPDF.addEventListener('click', function (e) {
-                gerarPdf();
-            })
+
+    // let dados;
+    const form = document.getElementById('formulario');
+    const sections = document.querySelectorAll('.step-section');
+    let currentStep = 0;
+
+    function showStep(step) {
+      sections.forEach((section, index) => {
+        section.classList.toggle('active', index === step);
+      });
+    }
+
+    function validateCurrentSection() {
+      const inputs = sections[currentStep].querySelectorAll('input, textarea');
+      for (let input of inputs) {
+        if (input.hasAttribute('') && !input.value.trim()) {
+          input.classList.add('is-invalid');
+          return false;
+        } else {
+          input.classList.remove('is-invalid');
+        }
+      }
+      return true;
+    }
+
+    document.querySelectorAll('.next-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (validateCurrentSection()) {
+          currentStep++;
+          showStep(currentStep);
+        }
+      });
+    });
+
+    document.querySelectorAll('.back-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentStep--;
+        showStep(currentStep);
+      });
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!validateCurrentSection()) {
+        return
+      }
+
+      const formData = new FormData(e.target);
+    
+      gerarPdf(Object.fromEntries(formData.entries()))
+
+    });
+
+    // document.addEventListener('deviceready', function () {
+
+    async function gerarPdf(dadosRecebidos) {
+
+      let dados = {
+        id: getFormattedDateTime(),
+        data_atual: new Date().toLocaleDateString()
+      };
+
+      Object.assign(dados, dadosRecebidos)
+
+
+      console.log(dados)
+      return
+
+
+      let html = await fetch('template/formulario.html').then(res => res.text());
+      const htmlComVariaveis = Mustache.render(html, dados);
+      const file_name = `Fomulário-${getFormattedDateTime()}.pdf`;
+
+      // console.log(output)
+      // return
+
+      // const htmlComVariaveis = html.replace(/{{(.*?)}}/g, (_, chave) => dados[chave] || '');
+
+      const options = {
+        documentSize: 'A4',
+        landscape: 'portrait',
+        type: 'share',
+        fileName: `${file_name}`
+      };
+
+
+      showSpinner();
+
+      pdf.fromData(htmlComVariaveis, options)
+        .then((filePath) => {
+          hideSpinner();
+
+          // Abrir o PDF
+          cordova.plugins.fileOpener2.open(
+            filePath,
+            'application/pdf',
+            {
+              error: function (e) {
+                console.error('Erro ao abrir PDF:', e);
+              },
+              success: function () {
+                console.log('PDF aberto com sucesso');
+              }
+            }
+          );
+          // Após gerar o PDF e receber o caminho (filePath)
+          // window.plugins.socialsharing.shareWithOptions({
+          //   message: 'Confira este PDF',
+          //   subject: 'Documento',
+          //   files: [filePath], // caminho completo do arquivo, tipo file:///...
+          //   chooserTitle: 'Compartilhar com'
+          // }, function (result) {
+          //   console.log('Compartilhamento feito com sucesso', result);
+          // }, function (err) {
+          //   console.error('Erro ao compartilhar:', err);
+          // });
+
 
         })
+        .catch((err) => {
+          hideSpinner();
+          console.error('Erro ao gerar PDF:', err);
+        });
+
+    }
+
+    function showSpinner() {
+      document.getElementById('spinner').style.display = 'flex';
+    }
+
+    function hideSpinner() {
+      document.getElementById('spinner').style.display = 'none';
+    }
+
+    // Função para formatar data e hora como YYYY-MM-DD-HH-mm
+    function getFormattedDateTime() {
+      const now = new Date();
+      return `${String(now.getDate()).padStart(2, '0')}${String(now.getMonth() + 1).padStart(2, '0')}${now.getFullYear()}${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
+    }
 
 
 
 
-        async function gerarPdf() {
-            const response = await fetch('./template/index64.html');
-            const html = await response.text();
 
-            var opt = {
-                margin: 10,
-                filename: 'documento.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'mm', format: 'A4', orientation: 'portrait' }
-            }; 
-            html2pdf().set(opt).from(html).save();
-        }
+    // });
 
-    </script>
+  </script>
 </body>
 
 </html>

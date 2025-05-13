@@ -1,10 +1,14 @@
-
 <html>
 
 <head>
-    <meta charset="UTF-8">  
+    <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        @page {
+            size: A4;
+            margin: 5mm;
+        }
+
         * {
             --bg-green: #C5E0B3;
         }
@@ -12,49 +16,44 @@
         html,
         body {
             font-family: Arial, Helvetica, sans-serif;
+            color: #000;
             margin: 0;
-            padding: 10px;
-            box-sizing: border-box;
+            padding: 0;
+            /* box-sizing: border-box;   */
+            -webkit-print-color-adjust: exact;
         }
 
         .pdf-wrapper {
             position: relative;
+            /* margin: 10px; */
         }
 
-        /* .main:before {
-            background: url('../../www/template/logo-pb.png');
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 80%;
-            height: 100%;
-            background-repeat: no-repeat;
-            background-size: 100%;   
-            z-index: -1;
-            opacity: .1;           
-            transform: translate(-50%, -50%);
-        } */
+        .pagina1,
+        .pagina2 {
+            max-width: 100%;
+            max-height: 100%;
+        }      
 
         .marca-dagua {
-            /* background-size: contain; */
-            /* background-position: center center; */
-            /* background-repeat: no-repeat; */
+            /* background-size: contain;
+            background-position: center center;
+            background-repeat: no-repeat; */
             position: absolute;
             width: 100%;
             height: 70%;
             left: 0;
-            top: 80px;
+            top: 160px;
             object-fit: contain;
             /* transform: translate(-50%, -50%); */
             opacity: .1;
-            /* border: 2px solid red; */
+            /* border: 4px solid red; */
         }
+
 
         .main {
             position: relative;
             width: 100%;
-            min-height: 100%;
+            height: 100%;
         }
 
         .out-border {
@@ -67,6 +66,7 @@
             justify-content: left;
             align-items: center;
             margin-left: 50px;
+            margin-top: 50px;
         }
 
         .logo-header {
@@ -83,7 +83,7 @@
             margin-left: 15px;
             line-height: 1.3;
             font-weight: bold;
-            font-size: 15px;
+            font-size: 16px;
             display: flex;
             flex-direction: column;
 
@@ -97,15 +97,12 @@
         }
 
         .title h1 {
+            font-size: 20px;
+            font-weight: bold;
             margin-top: 10px;
             margin-left: 40px;
             text-align: center;
             float: left;
-        }
-
-        h1 {
-            font-size: 16px;
-            font-weight: bold;
         }
 
         h2 {
@@ -114,30 +111,41 @@
         }
 
         .title table {
-            width: 150px;
-            font-size: 12px;
+            width: 180px;
+            /* font-size: 12px; */
             vertical-align: middle;
         }
 
 
         table td:first-child {
-            background: var(--bg-green);
+            background-color: #C5E0B3;
             text-align: left;
-            font-size: 12px;
+            padding-left: 5px;
+            /* font-size: 16px; */
             font-weight: bold;
-            width: 150px;
+            width: 180px;
+        }       
+
+        table td:nth-child(2),
+        td:nth-child(3) {
+            text-align: left;
+            padding-left: 5px;
         }
 
         .bold-green {
             background: var(--bg-green);
             font-weight: bold;
-            font-size: 12px;
+            /* font-size: 14px; */
         }
 
         tr,
         td {
             border: 1px solid #000;
-            font-size: 12px;
+            /* font-size: 12px; */
+        }
+
+        tr {
+            height: 25px;
         }
 
         .paragrafo {
@@ -147,7 +155,7 @@
         }
 
         .margin-section {
-            margin: 20px 50px 0px 50px;
+            margin: 50px 50px 0px 50px;
         }
 
         footer {
@@ -190,9 +198,12 @@
     <div class="pdf-wrapper">
         <div class="main">
             <div class="pagina1 position-relative out-border">
-                <img class="marca-dagua" src="../../www/template/logo-pb.png" alt="">
+                <!-- <img class="marca-dagua" src="logo-pb.png" alt=""> -->
+                
+
                 <section class="header">
-                    <img src="../../www/template/logo.png" class="img-fluid logo-header">
+                    <!-- <img src="logo.png" class="logo-header"> -->                   
+
                     <div class="bar-vertical-header"></div>
                     <div class="text-header">
                         <span>PREFEITURA MUNICIPAL DE UNA</span>
@@ -201,16 +212,16 @@
                         <span>E MEIO AMBIENTE</span>
                     </div>
                 </section>
-                <section class="title margin-section mt-0">
+                <section class="title margin-section mt-1">
                     <h1>AUTO DE INFRAÇÃO AMBIENTAL A.I.A</h1>
                     <table>
                         <tr>
-                            <td>N°</td>
-                            <td></td>
+                            <td style="width: 60px;">N°</td>
+                            <td>{{id}}</td>
                         </tr>
                         <tr>
-                            <td>Data</td>
-                            <td>__/__/____</td>
+                            <td style="width: 60px;">Data</td>
+                            <td>{{data_atual}}</td>
                         </tr>
                     </table>
                 </section>
@@ -232,34 +243,35 @@
                     <table>
                         <tr>
                             <td>Nome/Razão Social</td>
-                            <td colspan="3"></td>
+                            <td colspan="3">{{autuado_razaosocial}}</td>
                         </tr>
                         <tr>
                             <td>CPF/CNPJ</td>
-                            <td style="width: 140px;"></td>
+                            <td style="width: 180px;">{{autuado_cpfcnpj}}</td>
                             <td style="width: 80px;" class="bold-green">Telefone</td>
-                            <td></td>
+                            <td>{{autuado_telefone}}</td>
                         </tr>
                         <tr>
                             <td>
                                 Endereço
                             </td>
-                            <td style="width: 140px;"></td>
+                            <td style="width: 180px;">{{autuado_endereco}}</td>
                             <td style="width: 80px;" class="bold-green">Bairro</td>
-                            <td></td>
+                            <td>{{autuado_bairro}}</td>
                         </tr>
                         <tr>
                             <td>
                                 Município/UF
                             </td>
-                            <td style="width: 140px;"></td>
+                            <td style="width: 180px;">{{autuado_municipio}}</td>
                             <td style="width: 80px;" class="bold-green">CEP</td>
-                            <td></td>
+                            <td>{{autuado_cep}}</td>
                         </tr>
                         <tr>
                             <td>
                                 E-mail
                             </td>
+                            <td colspan="3">{{autuado_email}}</td>
                         </tr>
                     </table>
 
@@ -270,29 +282,28 @@
                     <table>
                         <tr>
                             <td>Data</td>
-                            <td style="width: 140px;"></td>
+                            <td style="width: 180px;">{{infracao_data}}</td>
                             <td class="bold-green" style="width: 80px;">Hora</td>
-                            <td></td>
+                            <td>{{infracao_hora}}</td>
                         </tr>
                         <tr>
                             <td>Local</td>
+                            <td colspan="3">{{infracao_local}}</td>
                         </tr>
                         <tr>
                             <td>Coordenadas</td>
-                            <td class="border-0">LONG. </td>
-                            <td class="border-0"><span class="ms-4">LAT. </span></td>
+                            <td class="border-0">LONG.: {{infracao_longitude}} </td>
+                            <td class="border-0"><span class="ms-4">LAT.: {{infracao_latitude}} </span></td>
                         </tr>
                         <tr style="height: 150px;">
                             <td>Descrição</td>
-                            <td colspan="3">
-                                <span></span>
-                            </td>
+                            <td colspan="3">{{infracao_descricao}}</td>
                         </tr>
                         <tr>
                             <td>Evidências</td>
                             <td colspan="3" class="p-1">
                                 <div>
-                                    <input type="checkbox">
+                                    <input {{infracao_fotos == 1 ? "checked" : ""}} type="checkbox">
                                     <label for="">Fotos</label>
                                     <input type="checkbox">
                                     <label for="">Amostras</label>
@@ -316,11 +327,11 @@
                     <table>
                         <tr>
                             <td>Lei nº 9.605/98</td>
-                            <td></td>
+                            <td>{{fundamentacao_lei}}</td>
                         </tr>
                         <tr>
                             <td>Decreto nº 6.514/08</td>
-                            <td></td>
+                            <td>{{fundamentacao_decreto}}</td>
                         </tr>
                     </table>
                 </section>
@@ -328,8 +339,8 @@
 
             <div class="page-break"></div>
 
-            <!-- <div class="pagina2 position-relative out-border">
-                <img class="marca-dagua" src="../../www/template/logo-pb.png" alt="">
+            <div class="pagina2 position-relative out-border">
+                
                 <section
                     class="quarto border border-2 border-secondary rounded-2 margin-section d-flex flex-column ps-3 pe-3 pt-0 pb-2">
                     <h2 class="text-center">4. PENALIDADES</h2>
@@ -337,45 +348,45 @@
                         <tr>
                             <td>Advertência</td>
                             <td class="d-flex flex-column border-0">
-                                <span>Prazo:</span>
-                                <span>Medidas:</span>
+                                <span>Prazo: {{penalidade_prazo}}</span>
+                                <span>Medidas: {{penalidade_medidas}}</span>
                             </td>
                         </tr>
                         <tr>
                             <td>Multa</td>
                             <td class="d-flex flex-column border-0">
-                                <span>Valor:</span>
-                                <span>Base:</span>
+                                <span>Valor: {{penalidade_multa_valor}}</span>
+                                <span>Base: {{penalidade_multa_base}}</span>
                             </td>
                         </tr>
                         <tr>
                             <td>Interdição</td>
                             <td class="d-flex flex-column border-0">
-                                <span>
-                                    <input type="checkbox">
+                                <span>                             
+                                    <input {{#if penalidade_interdicao_temporario}}checked{{/if}} type="checkbox">
                                     <label for="">Temporário</label>
-                                    <input class="ms-5" type="checkbox">
+                                    <input {{#if penalidade_interdicao_definitivo}}checked{{/if}} class="ms-5" type="checkbox">
                                     <label for="">Definitivo</label>
                                 </span>
-                                <span>Base:</span>
+                                <span>Base: {{penalidade_interdicao_base}}</span>
                             </td>
                         </tr>
                         <tr>
                             <td>Embargo/Demolição</td>
                             <td class="d-flex flex-column border-0">
-                                <span>Base:</span>
+                                <span>Base: {{penalidade_embargo_base}}</span>
                             </td>
                         </tr>
                         <tr>
                             <td>Apreensão</td>
                             <td class="d-flex flex-column border-0">
-                                <span>Itens:</span>
+                                <span>Itens: {{penalidade_apreensaoo_itens}}</span>
                             </td>
                         </tr>
                         <tr>
                             <td>Recuperação</td>
                             <td class="d-flex flex-column border-0">
-                                <span>Medidas:</span>
+                                <span>Medidas: {{penalidade_recuperacao_medidas}}</span>
                             </td>
                         </tr>
                     </table>
@@ -390,15 +401,15 @@
                             <td>
                                 <div class="">
                                     <span>
-                                        <input type="checkbox">
+                                        <input {{#if defesa_notificacao_pessoal}}checked{{/if}} type="checkbox">
                                         <label for="">Pessoal</label>
                                     </span>
                                     <span>
-                                        <input class="ms-5" type="checkbox">
+                                        <input {{#if defesa_notificacao_postal}}checked{{/if}} class="ms-5" type="checkbox">
                                         <label for="">Postal</label>
                                     </span>
                                     <span>
-                                        <input class="ms-5" type="checkbox">
+                                        <input {{#if defesa_notificacao_edital}}checked{{/if}} class="ms-5" type="checkbox">
                                         <label for="">Edital</label>
                                     </span>
                                 </div>
@@ -406,16 +417,16 @@
                         </tr>
                         <tr>
                             <td>Data Notificação</td>
-                            <td>Base:</td>
+                            <td>Base: {{defesa_data_notificacao}}</td>
                         </tr>
                         <tr>
                             <td>Defesa</td>
                             <td>
                                 <small style="font-size: 10px;">
                                     Defesa 20 dias (Artigo 70, § 3º - Lei nº 9.605/98) e Art. 113, § 1º - Decreto nº
-                                    6.514/08).
+                                    6.514/08.
                                     Apresentar à SAMA.
-                                </small>>
+                                </small>
                             </td>
                         </tr>
                     </table>
@@ -426,57 +437,57 @@
                     <table>
                         <tr>
                             <td>Agente SAMA</td>
-                            <td style="width: 140px;"></td>
+                            <td style="width: 180px;">{{testemunha1_sama}}</td>
                             <td style="width: 80px;" class="bold-green">Matrícula</td>
-                            <td></td>
+                            <td>{{testemunha1_matricula}}</td>
                         </tr>
                         <tr>
                             <td>Assinatura</td>
-                            <td colspan="4"></td>
+                            <td colspan="4">{{testemunha1_assinatura}}</td>
                         </tr>
                         <tr>
                             <td>Agente SAMA</td>
-                            <td style="width: 140px;"></td>
+                            <td style="width: 180px;">{{testemunha2_sama}}</td>
                             <td style="width: 80px;" class="bold-green">Matrícula</td>
-                            <td></td>
+                            <td>{{testemunha2_matricula}}</td>
                         </tr>
                         <tr>
                             <td>Assinatura</td>
-                            <td colspan="4"></td>
+                            <td colspan="4">{{testemunha2_assinatura}}</td>
                         </tr>
                         <tr>
                             <td>Nome Fiscal</td>
-                            <td style="width: 140px;"></td>
+                            <td style="width: 180px;">{{testemunha_nome_fiscal}}</td>
                             <td style="width: 80px;" class="bold-green">Matrícula</td>
-                            <td></td>
+                            <td>{{testemunha_nome_fiscal_matricula}}</td>
                         </tr>
                         <tr>
                             <td>Assinatura</td>
-                            <td colspan="4"></td>
+                            <td colspan="4">{{testemunha3_assinatura}}</td>
 
                         </tr>
                         <tr>
                             <td>Testemunha 1</td>
-                            <td class="border-0">Nome:</td>
+                            <td class="border-0">Nome: {{testemunha1}}</td>
                         </tr>
                         <tr>
                             <td>Testemunha 2</td>
-                            <td class="border-0">Nome:</td>
+                            <td class="border-0">Nome: {{testemunha2}}</td>
                         </tr>
                         <tr>
                             <td>Vias</td>
                             <td colspan="4">
                                 <div class="">
                                     <span>
-                                        <input type="checkbox">
+                                        <input {{#if testemunha_via_autuado}}checked{{/if}} type="checkbox">
                                         <label for="">Autuado</label>
                                     </span>
                                     <span>
-                                        <input class="ms-5" type="checkbox">
+                                        <input {{#if testemunha_via_processo}}checked{{/if}} class="ms-5" type="checkbox">
                                         <label for="">Processo</label>
                                     </span>
                                     <span>
-                                        <input class="ms-5" type="checkbox">
+                                        <input class="ms-5" {{#if testemunha_via_arquivo}}checked{{/if}}  type="checkbox">
                                         <label for="">Arquivo</label>
                                     </span>
                                 </div>
@@ -484,7 +495,7 @@
                         </tr>
                         <tr>
                             <td style="height: 120px;">Observações</td>
-                            <td colspan="4"></td>
+                            <td colspan="4">{{testemunha_observacoes}}</td>
                         </tr>
                     </table>
                 </section>
@@ -501,7 +512,7 @@
                         meioambiente@una.ba.gov.br
                     </span>
                 </footer>
-            </div> -->
+            </div>
 
         </div>
 
