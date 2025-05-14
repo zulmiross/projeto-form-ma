@@ -27,6 +27,11 @@ $("#cpfcnpj").keydown(function(){
 $(document).ready(function(){
     $('#cep').mask('00000-000');
     $('#phone_com_ddd').mask('(00) 0 0000-0000');
+    $('#email').mask("A", {
+    translation: {
+        "A": { pattern: /[\w@\-.+]/, recursive: true }
+    }
+});
     
     
 })
@@ -34,3 +39,4 @@ $(document).ready(function(){
 $(document).ready(function(){
     $("#multa").maskMoney({showSymbol:true, symbol:"R$ ", decimal:",", thousands:"."});
 });
+
